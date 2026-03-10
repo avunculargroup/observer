@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+/* ── Design Tokens (CSS Custom Properties) ── */
+:root {
+  /* Brand */
+  --color-primary: #0D9488;
+  --color-primary-light: #5EEAD4;
+  --color-primary-lighter: #CCFBF1;
+  --color-primary-dark: #0F766E;
+
+  /* Warm Neutrals */
+  --color-bg: #FAFAF7;
+  --color-surface: #FFFFFF;
+  --color-surface-raised: #F5F3EF;
+  --color-border: #E8E4DD;
+  --color-border-subtle: #F0EDE7;
+
+  /* Text */
+  --color-text-primary: #1C1917;
+  --color-text-secondary: #57534E;
+  --color-text-tertiary: #A8A29E;
+  --color-text-inverse: #FFFFFF;
+
+  /* Semantic */
+  --color-success: #16A34A;
+  --color-warning: #F59E0B;
+  --color-error: #DC7E6B;
+
+  /* Category: Inattention */
+  --cat-inattention: #6366F1;
+  --cat-inattention-light: #E0E7FF;
+  --cat-inattention-icon: #4F46E5;
+
+  /* Category: Hyperactivity */
+  --cat-hyperactivity: #F97316;
+  --cat-hyperactivity-light: #FFF7ED;
+  --cat-hyperactivity-icon: #EA580C;
+
+  /* Category: Impulsivity */
+  --cat-impulsivity: #EF4444;
+  --cat-impulsivity-light: #FEF2F2;
+  --cat-impulsivity-icon: #DC2626;
+
+  /* Category: Emotional */
+  --cat-emotional: #EC4899;
+  --cat-emotional-light: #FDF2F8;
+  --cat-emotional-icon: #DB2777;
+
+  /* Category: Social */
+  --cat-social: #8B5CF6;
+  --cat-social-light: #F5F3FF;
+  --cat-social-icon: #7C3AED;
+
+  /* Category: School */
+  --cat-school: #0EA5E9;
+  --cat-school-light: #F0F9FF;
+  --cat-school-icon: #0284C7;
+
+  /* Category: Less Obvious */
+  --cat-lessObvious: #14B8A6;
+  --cat-lessObvious-light: #F0FDFA;
+  --cat-lessObvious-icon: #0D9488;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.05);
+  --shadow-md: 0 4px 12px rgba(28, 25, 23, 0.08);
+  --shadow-lg: 0 8px 24px rgba(28, 25, 23, 0.12);
+  --shadow-sheet: 0 -4px 24px rgba(28, 25, 23, 0.12);
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Animation */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
+
+  /* Fonts (set by next/font) */
+  --font-display: var(--font-nunito), 'Nunito', sans-serif;
+  --font-body: var(--font-dm-sans), 'DM Sans', sans-serif;
+  --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;
+}
+
+/* ── Tailwind v4 Theme ── */
+@theme inline {
+  /* Colours */
+  --color-primary: var(--color-primary);
+  --color-primary-light: var(--color-primary-light);
+  --color-primary-lighter: var(--color-primary-lighter);
+  --color-primary-dark: var(--color-primary-dark);
+
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-border: var(--color-border);
+  --color-border-subtle: var(--color-border-subtle);
+
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-tertiary: var(--color-text-tertiary);
+  --color-text-inverse: var(--color-text-inverse);
+
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+
+  --color-cat-inattention: var(--cat-inattention);
+  --color-cat-inattention-light: var(--cat-inattention-light);
+  --color-cat-inattention-icon: var(--cat-inattention-icon);
+
+  --color-cat-hyperactivity: var(--cat-hyperactivity);
+  --color-cat-hyperactivity-light: var(--cat-hyperactivity-light);
+  --color-cat-hyperactivity-icon: var(--cat-hyperactivity-icon);
+
+  --color-cat-impulsivity: var(--cat-impulsivity);
+  --color-cat-impulsivity-light: var(--cat-impulsivity-light);
+  --color-cat-impulsivity-icon: var(--cat-impulsivity-icon);
+
+  --color-cat-emotional: var(--cat-emotional);
+  --color-cat-emotional-light: var(--cat-emotional-light);
+  --color-cat-emotional-icon: var(--cat-emotional-icon);
+
+  --color-cat-social: var(--cat-social);
+  --color-cat-social-light: var(--cat-social-light);
+  --color-cat-social-icon: var(--cat-social-icon);
+
+  --color-cat-school: var(--cat-school);
+  --color-cat-school-light: var(--cat-school-light);
+  --color-cat-school-icon: var(--cat-school-icon);
+
+  --color-cat-lessObvious: var(--cat-lessObvious);
+  --color-cat-lessObvious-light: var(--cat-lessObvious-light);
+  --color-cat-lessObvious-icon: var(--cat-lessObvious-icon);
+
+  /* Fonts */
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  /* Shadows */
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-sheet: var(--shadow-sheet);
+}
+
+/* ── Base Styles ── */
+body {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+/* ── Animations ── */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slide-down {
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
+}
+
+@keyframes scale-in {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse-shadow {
+  0%, 100% { box-shadow: 0 8px 24px rgba(28, 25, 23, 0.12); }
+  50% { box-shadow: 0 8px 32px rgba(13, 148, 136, 0.25); }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toast-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
