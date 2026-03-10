@@ -40,6 +40,12 @@ export function TimelineFeed() {
     fetchObservations();
   }, [fetchObservations]);
 
+  useEffect(() => {
+    const handler = () => fetchObservations();
+    window.addEventListener('observations-updated', handler);
+    return () => window.removeEventListener('observations-updated', handler);
+  }, [fetchObservations]);
+
   useRealtimeSubscription('observations', useCallback(() => {
     fetchObservations();
   }, [fetchObservations]));

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { ensureProfile } from '@/lib/supabase/ensure-profile';
 import type { CategoryKey, Intensity, ObservationContext, ObservationSource } from '@/lib/data/types';
 
 interface InsertObservationParams {
@@ -32,6 +33,13 @@ export function useObservations() {
       return null;
     }
 
+    const profileOk = await ensureProfile(supabase, user);
+    if (!profileOk) {
+      setError('Could not create user profile');
+      setLoading(false);
+      return null;
+    }
+
     const { data, error: insertError } = await supabase
       .from('observations')
       .insert({
@@ -52,6 +60,7 @@ export function useObservations() {
     setLoading(false);
 
     if (insertError) {
+      console.error('[useObservations] insert failed:', insertError.message, insertError);
       setError(insertError.message);
       return null;
     }
@@ -68,6 +77,13 @@ export function useObservations() {
 
     if (!user) {
       setError('Not authenticated');
+      setLoading(false);
+      return null;
+    }
+
+    const profileOk = await ensureProfile(supabase, user);
+    if (!profileOk) {
+      setError('Could not create user profile');
       setLoading(false);
       return null;
     }
@@ -93,6 +109,7 @@ export function useObservations() {
     setLoading(false);
 
     if (insertError) {
+      console.error('[useObservations] bulk insert failed:', insertError.message, insertError);
       setError(insertError.message);
       return null;
     }

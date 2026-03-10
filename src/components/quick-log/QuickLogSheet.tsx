@@ -26,6 +26,7 @@ export function QuickLogSheet({ open, onClose, onSaved }: QuickLogSheetProps) {
   const [intensity, setIntensity] = useState<Intensity | null>(null);
   const [note, setNote] = useState('');
   const [context, setContext] = useState<ObservationContext | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const { insertObservation, loading } = useObservations();
 
@@ -36,6 +37,7 @@ export function QuickLogSheet({ open, onClose, onSaved }: QuickLogSheetProps) {
     setIntensity(null);
     setNote('');
     setContext(null);
+    setSaveError(null);
   }, []);
 
   function handleClose() {
@@ -72,13 +74,15 @@ export function QuickLogSheet({ open, onClose, onSaved }: QuickLogSheetProps) {
   async function handleSave() {
     if (!selectedCategory || selectedSignIds.length === 0 || !intensity) return;
 
+    setSaveError(null);
     const category = getCategoryByKey(selectedCategory);
+    let anyFailed = false;
 
     for (const signId of selectedSignIds) {
       const sign = category.signs.find((s) => s.id === signId);
       if (!sign) continue;
 
-      await insertObservation({
+      const result = await insertObservation({
         category: selectedCategory,
         sign_id: signId,
         sign_label: sign.label,
@@ -87,10 +91,21 @@ export function QuickLogSheet({ open, onClose, onSaved }: QuickLogSheetProps) {
         context,
         source: 'quick_log',
       });
+
+      if (!result) {
+        anyFailed = true;
+        break;
+      }
+    }
+
+    if (anyFailed) {
+      setSaveError('Could not save observation. Please try again.');
+      return;
     }
 
     reset();
     onSaved();
+    window.dispatchEvent(new CustomEvent('observations-updated'));
   }
 
   const stepTitle = (() => {
@@ -182,6 +197,22 @@ export function QuickLogSheet({ open, onClose, onSaved }: QuickLogSheetProps) {
             context={context}
             onContextChange={setContext}
           />
+          {saveError && (
+            <p
+              role="alert"
+              style={{
+                marginTop: '12px',
+                padding: '10px 12px',
+                borderRadius: 'var(--radius-sm)',
+                background: 'var(--color-error-light, #FEF2F2)',
+                color: 'var(--color-error)',
+                fontSize: '0.8125rem',
+                fontFamily: 'var(--font-body)',
+              }}
+            >
+              {saveError}
+            </p>
+          )}
           <div style={{ marginTop: '20px' }}>
             <Button
               fullWidth

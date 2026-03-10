@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { ensureProfile } from '@/lib/supabase/ensure-profile';
 import type { Journal, Mood } from '@/lib/data/types';
 import { getTodayDateString } from '@/lib/utils/dates';
 
@@ -38,6 +39,13 @@ export function useJournal() {
 
     if (!user) {
       setError('Not authenticated');
+      setLoading(false);
+      return null;
+    }
+
+    const profileOk = await ensureProfile(supabase, user);
+    if (!profileOk) {
+      setError('Could not create user profile');
       setLoading(false);
       return null;
     }

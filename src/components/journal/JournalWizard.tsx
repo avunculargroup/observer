@@ -30,6 +30,7 @@ export function JournalWizard() {
   const [mood, setMood] = useState<Mood | null>(null);
   const [reflection, setReflection] = useState('');
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const { insertMultipleObservations, loading: obsLoading } = useObservations();
   const { createJournal, loading: journalLoading } = useJournal();
@@ -70,12 +71,17 @@ export function JournalWizard() {
   );
 
   async function handleSubmit() {
+    setSaveError(null);
+
     const journal = await createJournal({
       overall_mood: mood,
       reflection: reflection || null,
     });
 
-    if (!journal) return;
+    if (!journal) {
+      setSaveError('Could not save journal. Please try again.');
+      return;
+    }
 
     const allObservations = CATEGORIES.flatMap((cat) =>
       categoryData[cat.key].map((entry) => {
@@ -92,10 +98,15 @@ export function JournalWizard() {
     );
 
     if (allObservations.length > 0) {
-      await insertMultipleObservations(allObservations);
+      const result = await insertMultipleObservations(allObservations);
+      if (!result) {
+        setSaveError('Journal saved but observations failed to save. Please try again.');
+        return;
+      }
     }
 
     setSaved(true);
+    window.dispatchEvent(new CustomEvent('observations-updated'));
   }
 
   const totalSignsSelected = Object.values(categoryData).reduce(
@@ -182,6 +193,22 @@ export function JournalWizard() {
             {totalSignsSelected} observation{totalSignsSelected !== 1 ? 's' : ''} across{' '}
             {Object.values(categoryData).filter((s) => s.length > 0).length} categories
           </div>
+
+          {saveError && (
+            <p
+              role="alert"
+              style={{
+                padding: '10px 12px',
+                borderRadius: 'var(--radius-sm)',
+                background: 'var(--color-error-light, #FEF2F2)',
+                color: 'var(--color-error)',
+                fontSize: '0.8125rem',
+                fontFamily: 'var(--font-body)',
+              }}
+            >
+              {saveError}
+            </p>
+          )}
         </div>
       )}
 
