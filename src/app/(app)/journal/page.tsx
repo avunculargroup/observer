@@ -1,20 +1,22 @@
-import { EmptyState } from '@/components/ui/EmptyState';
+'use client';
+
+import { JournalWizard } from '@/components/journal/JournalWizard';
 
 export default function JournalPage() {
   return (
-    <div style={{ paddingTop: '24px' }}>
+    <div style={{ paddingTop: '24px', paddingBottom: '24px' }}>
       <h1
         style={{
           fontFamily: 'var(--font-display)',
           fontSize: '1.375rem',
           fontWeight: 700,
           color: 'var(--color-text-primary)',
-          marginBottom: '16px',
+          marginBottom: '20px',
         }}
       >
-        Journal
+        Daily Journal
       </h1>
-      <EmptyState message="Your daily journal will appear here. Come back to reflect on the day." />
+      <JournalWizard />
     </div>
   );
 }

@@ -1,12 +1,23 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
+import { useState, useCallback, type ReactNode } from 'react';
 import { TabBar } from '@/components/navigation/TabBar';
 import { FAB } from '@/components/navigation/FAB';
-import { BottomSheet } from '@/components/ui/BottomSheet';
+import { QuickLogSheet } from '@/components/quick-log/QuickLogSheet';
+import { Toast } from '@/components/ui/Toast';
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const [quickLogOpen, setQuickLogOpen] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false);
+
+  const handleSaved = useCallback(() => {
+    setQuickLogOpen(false);
+    setToastVisible(true);
+  }, []);
+
+  const handleToastHide = useCallback(() => {
+    setToastVisible(false);
+  }, []);
 
   return (
     <div
@@ -26,18 +37,20 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         {children}
       </div>
 
-      <FAB onClick={() => setQuickLogOpen(true)} />
+      {!quickLogOpen && <FAB onClick={() => setQuickLogOpen(true)} />}
       <TabBar />
 
-      <BottomSheet
+      <QuickLogSheet
         open={quickLogOpen}
         onClose={() => setQuickLogOpen(false)}
-        title="Add an observation"
-      >
-        <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9375rem' }}>
-          Quick log will be available soon.
-        </p>
-      </BottomSheet>
+        onSaved={handleSaved}
+      />
+
+      <Toast
+        message="Got it ✓"
+        visible={toastVisible}
+        onHide={handleToastHide}
+      />
     </div>
   );
 }

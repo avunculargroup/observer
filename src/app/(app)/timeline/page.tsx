@@ -1,4 +1,6 @@
-import { EmptyState } from '@/components/ui/EmptyState';
+'use client';
+
+import { TimelineFeed } from '@/components/timeline/TimelineFeed';
 
 export default function TimelinePage() {
   return (
@@ -14,7 +16,7 @@ export default function TimelinePage() {
       >
         Timeline
       </h1>
-      <EmptyState message="Nothing here yet. Tap + to log your first observation." />
+      <TimelineFeed />
     </div>
   );
 }

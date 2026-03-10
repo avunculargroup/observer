@@ -1,27 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Nunito, DM_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
-
-const nunito = Nunito({
-  subsets: ['latin'],
-  weight: ['600', '700', '800'],
-  variable: '--font-nunito',
-  display: 'swap',
-});
-
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-dm-sans',
-  display: 'swap',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400'],
-  variable: '--font-jetbrains-mono',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'ADHD Observer',
@@ -53,10 +31,12 @@ export default function RootLayout({
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600&family=JetBrains+Mono:wght@400&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body
-        className={`${nunito.variable} ${dmSans.variable} ${jetbrainsMono.variable} antialiased`}
-      >
+      <body className="antialiased">
         {children}
       </body>
     </html>
