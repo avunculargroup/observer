@@ -7,7 +7,8 @@ import { InputField } from '@/components/ui/InputField';
 import { Card } from '@/components/ui/Card';
 import { ExportControls } from '@/components/export/ExportControls';
 import { useRouter } from 'next/navigation';
-import { SignOut, User, Bell, Download, Info } from '@phosphor-icons/react';
+import { SignOut, User, Bell, Download, Info, UserPlus, CheckCircle } from '@phosphor-icons/react';
+import { invitePartner, getPartnerStatus } from './actions';
 
 export default function SettingsPage() {
   const [displayName, setDisplayName] = useState('');
@@ -15,6 +16,10 @@ export default function SettingsPage() {
   const [reminderTime, setReminderTime] = useState('20:00');
   const [saving, setSaving] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviting, setInviting] = useState(false);
+  const [inviteResult, setInviteResult] = useState<{ success?: boolean; error?: string } | null>(null);
+  const [partner, setPartner] = useState<{ displayName: string; email: string } | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -35,10 +40,24 @@ export default function SettingsPage() {
         setDisplayName(profile.display_name ?? '');
         setReminderTime(profile.reminder_time ?? '20:00');
       }
+
+      const { partner: p } = await getPartnerStatus();
+      if (p) setPartner(p);
+
       setLoaded(true);
     }
     load();
   }, []);
+
+  async function handleInvite() {
+    if (!inviteEmail.trim()) return;
+    setInviting(true);
+    setInviteResult(null);
+    const result = await invitePartner(inviteEmail.trim());
+    setInviteResult(result);
+    if (result.success) setInviteEmail('');
+    setInviting(false);
+  }
 
   async function handleSaveProfile() {
     setSaving(true);
@@ -121,6 +140,112 @@ export default function SettingsPage() {
             Save
           </Button>
         </div>
+      </Card>
+
+      {/* Partner */}
+      <Card style={{ marginBottom: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+          <UserPlus size={22} weight="duotone" color="var(--cat-social)" />
+          <h2
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '1rem',
+              fontWeight: 600,
+              color: 'var(--color-text-primary)',
+            }}
+          >
+            Co-parent
+          </h2>
+        </div>
+
+        {partner ? (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '12px 14px',
+              borderRadius: 'var(--radius-sm)',
+              background: 'var(--color-surface-raised)',
+            }}
+          >
+            <CheckCircle size={22} weight="fill" color="var(--color-success)" />
+            <div>
+              <p
+                style={{
+                  fontSize: '0.9375rem',
+                  fontWeight: 500,
+                  color: 'var(--color-text-primary)',
+                  margin: 0,
+                }}
+              >
+                {partner.displayName}
+              </p>
+              <p
+                style={{
+                  fontSize: '0.8125rem',
+                  color: 'var(--color-text-tertiary)',
+                  margin: 0,
+                }}
+              >
+                {partner.email}
+              </p>
+            </div>
+          </div>
+        ) : (
+          <>
+            <p style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)', marginBottom: '12px', lineHeight: 1.6 }}>
+              Invite your co-parent so you can both record observations and see each other&apos;s entries in real time.
+            </p>
+            <InputField
+              label="Partner's email"
+              type="email"
+              placeholder="name@example.com"
+              value={inviteEmail}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setInviteEmail(e.target.value);
+                setInviteResult(null);
+              }}
+            />
+            {inviteResult?.error && (
+              <p
+                role="alert"
+                style={{
+                  marginTop: '8px',
+                  padding: '10px 12px',
+                  borderRadius: 'var(--radius-sm)',
+                  background: 'var(--color-error-light, #FEF2F2)',
+                  color: 'var(--color-error)',
+                  fontSize: '0.8125rem',
+                  fontFamily: 'var(--font-body)',
+                }}
+              >
+                {inviteResult.error}
+              </p>
+            )}
+            {inviteResult?.success && (
+              <p
+                role="status"
+                style={{
+                  marginTop: '8px',
+                  padding: '10px 12px',
+                  borderRadius: 'var(--radius-sm)',
+                  background: '#F0FDF4',
+                  color: 'var(--color-success)',
+                  fontSize: '0.8125rem',
+                  fontFamily: 'var(--font-body)',
+                }}
+              >
+                Invite sent! They&apos;ll receive an email shortly.
+              </p>
+            )}
+            <div style={{ marginTop: '12px' }}>
+              <Button onClick={handleInvite} loading={inviting} disabled={!inviteEmail.trim()}>
+                Send invite
+              </Button>
+            </div>
+          </>
+        )}
       </Card>
 
       {/* Reminders */}
