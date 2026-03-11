@@ -5,6 +5,7 @@ import { TabBar } from '@/components/navigation/TabBar';
 import { FAB } from '@/components/navigation/FAB';
 import { QuickLogSheet } from '@/components/quick-log/QuickLogSheet';
 import { Toast } from '@/components/ui/Toast';
+import { InstallPrompt } from '@/components/ui/InstallPrompt';
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const [quickLogOpen, setQuickLogOpen] = useState(false);
@@ -51,6 +52,8 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         visible={toastVisible}
         onHide={handleToastHide}
       />
+
+      <InstallPrompt />
     </div>
   );
 }
