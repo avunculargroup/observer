@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/Card';
 import { ExportControls } from '@/components/export/ExportControls';
 import { useRouter } from 'next/navigation';
 import { SignOut, User, Bell, Download, Info, UserPlus, CheckCircle } from '@phosphor-icons/react';
+import { Logo } from '@/components/ui/Logo';
 import { invitePartner, getPartnerStatus } from './actions';
 
 export default function SettingsPage() {
@@ -291,7 +292,7 @@ export default function SettingsPage() {
 
       {/* About */}
       <Card style={{ marginBottom: '16px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
           <Info size={22} weight="duotone" color="var(--color-text-tertiary)" />
           <h2
             style={{
@@ -304,8 +305,19 @@ export default function SettingsPage() {
             About
           </h2>
         </div>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)', marginBottom: '8px' }}>
-          ADHD Observer v1.0
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+          <Logo variant="full" size={56} />
+        </div>
+        <p
+          style={{
+            fontSize: '0.75rem',
+            color: 'var(--color-text-tertiary)',
+            textAlign: 'center',
+            marginBottom: '12px',
+            fontFamily: 'var(--font-mono)',
+          }}
+        >
+          v1.0
         </p>
         <p style={{ fontSize: '0.8125rem', color: 'var(--color-text-tertiary)', lineHeight: 1.6 }}>
           This app is an observation tool — not a diagnostic instrument. It is designed to help you

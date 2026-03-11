@@ -1,0 +1,20 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#14B8A6"/>
+      <stop offset="100%" stop-color="#0D9488"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="512" height="512" rx="115" fill="url(#bg)"/>
+  <!-- Upper eyelid arc -->
+  <path d="M96 256 Q256 118 416 256" fill="none" stroke="white" stroke-width="30" stroke-linecap="round"/>
+  <!-- Lower eyelid arc -->
+  <path d="M96 256 Q256 394 416 256" fill="none" stroke="white" stroke-width="30" stroke-linecap="round"/>
+  <!-- Iris ring -->
+  <circle cx="256" cy="256" r="82" fill="none" stroke="white" stroke-width="30"/>
+  <!-- Pupil -->
+  <circle cx="256" cy="256" r="38" fill="white"/>
+  <!-- Catchlight -->
+  <circle cx="228" cy="228" r="15" fill="white" opacity="0.55"/>
+</svg>
