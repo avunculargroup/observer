@@ -5,7 +5,7 @@ import { TabBar } from '@/components/navigation/TabBar';
 import { FAB } from '@/components/navigation/FAB';
 import { QuickLogSheet } from '@/components/quick-log/QuickLogSheet';
 import { Toast } from '@/components/ui/Toast';
-import { InstallPrompt } from '@/components/ui/InstallPrompt';
+// import { InstallPrompt } from '@/components/ui/InstallPrompt';
 import { Logo } from '@/components/ui/Logo';
 
 export default function AppLayout({ children }: { children: ReactNode }) {
@@ -78,7 +78,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         onHide={handleToastHide}
       />
 
-      <InstallPrompt />
+      {/* <InstallPrompt /> */}
     </div>
   );
 }
